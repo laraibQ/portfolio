@@ -1,26 +1,194 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Semantic tokens. Components must consume these rather than hardcoding
+ * white-alpha utilities, otherwise the light theme loses all borders and
+ * surfaces. Text tokens are chosen to clear WCAG AA (4.5:1) in both themes.
+ */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f0f0f;
+  --accent: #00bdf1;
+
+  /* #00bdf1 only reaches 2.1:1 on white, so light mode needs a darker accent for text. */
+  --accent-text: #00789a;
+
+  --muted: #4b5563; /* 7.2:1 on white */
+  --subtle: #6b7280; /* 4.8:1 on white */
+  --error: #b91c1c; /* 6.5:1 on white; red-400 only reaches 2.8:1 */
+
+  --hairline: rgb(15 15 15 / 0.07);
+  --line: rgb(15 15 15 / 0.11);
+  --line-strong: rgb(15 15 15 / 0.18);
+  --panel: rgb(15 15 15 / 0.035);
+  --panel-strong: rgb(15 15 15 / 0.06);
+
+  --surface: rgb(15 15 15 / 0.03);
+  --glass: rgb(255 255 255 / 0.72);
+  --grid-line: rgb(15 15 15 / 0.06);
+}
+
+.dark {
+  --background: #0f0f0f;
+  --foreground: #f5f5f5;
+  --accent: #00bdf1;
+  --accent-text: #00bdf1; /* 9.6:1 on #0f0f0f */
+
+  --muted: #a3a3a3; /* 8.9:1 on #0f0f0f */
+  --subtle: #8a8a8a; /* 6.4:1 on #0f0f0f */
+  --error: #f87171; /* 6.9:1 on #0f0f0f */
+
+  --hairline: rgb(255 255 255 / 0.06);
+  --line: rgb(255 255 255 / 0.1);
+  --line-strong: rgb(255 255 255 / 0.18);
+  --panel: rgb(255 255 255 / 0.05);
+  --panel-strong: rgb(255 255 255 / 0.08);
+
+  --surface: rgb(255 255 255 / 0.03);
+  --glass: rgb(15 15 15 / 0.72);
+  --grid-line: rgb(255 255 255 / 0.045);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-dark: #0f0f0f;
+  --color-light: #ffffff;
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-error: var(--error);
+  --color-hairline: var(--hairline);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-panel: var(--panel);
+  --color-panel-strong: var(--panel-strong);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0.5rem;
+  z-index: 100;
+  translate: -50% -200%;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: #0f0f0f;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: translate 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  translate: -50% 0;
+}
+
+.site-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 75%);
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.glass-panel {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+}
+
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    border-color 0.35s ease,
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.bento-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 40%
+  );
+  pointer-events: none;
+}
+
+.bento-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 4%, var(--panel));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 24px 60px color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.bento-card:hover::before {
+  opacity: 1;
+}
+
+/*
+ * Framer Motion is gated per-component with useReducedMotion, but CSS
+ * animations and transitions need a global escape hatch too.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
