@@ -30,10 +30,14 @@ Open <http://localhost:3000>.
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test` | Vitest suite (single run) |
 | `npm run test:watch` | Vitest in watch mode |
+| `npm run audit:a11y` | axe-core against a running production server |
+| `npm run audit:lighthouse` | Lighthouse medians (writes HTML reports to `.audit/`) |
+| `npm run audit` | axe then Lighthouse |
 | `npm run verify` | lint → typecheck → test → build, i.e. the CI gate |
 
 Run `npm run verify` before pushing; CI runs the same four gates plus
-`npm audit --audit-level=high`.
+`npm audit --audit-level=high`. For measured scores see
+[`docs/AUDIT.md`](docs/AUDIT.md).
 
 ## Environment variables
 
@@ -87,6 +91,7 @@ no hydration mismatch.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system shape and data flow
 - [`docs/adr/`](docs/adr) — architecture decision records
 - [`docs/SECURITY.md`](docs/SECURITY.md) — headers, CSP posture, accepted risks
+- [`docs/AUDIT.md`](docs/AUDIT.md) — measured Lighthouse and axe numbers
 - [`docs/TEST-PLAN.md`](docs/TEST-PLAN.md) — what is automated vs. manual
 - [`docs/KNOWN-ISSUES.md`](docs/KNOWN-ISSUES.md) — open issues and workarounds
 - [`docs/RELEASE-CHECKLIST.md`](docs/RELEASE-CHECKLIST.md) — go/no-go and rollback

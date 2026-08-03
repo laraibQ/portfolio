@@ -1,6 +1,6 @@
 # Known issues
 
-Open items as of 2026-08-03, stated before anyone else finds them. Severity is
+Open items as of 2026-08-04, stated before anyone else finds them. Severity is
 by user impact, not by effort.
 
 ---
@@ -18,12 +18,13 @@ outcome other than `sent`.
 ---
 
 ### KI-02 — No end-to-end or visual regression tests
-**Severity:** Medium · **Status:** Open, accepted for this release
+**Severity:** Medium · **Status:** Open, partially mitigated
 
-73 unit and component tests cover logic and semantics. Nothing verifies the
-rendered result in a real browser, so a CSS regression that breaks the layout
-would pass CI. Ten manual checks in [TEST-PLAN.md](TEST-PLAN.md) cover the gap
-for now.
+79 unit and component tests cover logic and semantics. `npm run audit` now
+runs axe-core and Lighthouse against a production build in a real Chromium,
+so accessibility and category regressions fail loudly — but there is still no
+Playwright flow covering a keyboard pass through the live UI, and no
+screenshot diff for the design-led sections.
 
 *Fix:* Playwright for the keyboard and header checks; a screenshot diff for the
 design-led sections.
@@ -39,6 +40,17 @@ payloads inline. Full reasoning and the nonce-based upgrade path are in
 
 ---
 
+### KI-08 — Lab mobile LCP sits near 3.7s under Slow 4G
+**Severity:** Low · **Status:** Open, measured
+
+Lighthouse mobile (Slow 4G + 4× CPU) reports home LCP around 3.7s and a
+performance score in the high 70s. Desktop clears 99–100. The gap is the
+synthetic throttle plus remaining above-the-fold JS (React, lucide), not a
+missing image optimisation — the avatar already ships as a ~7KB resized AVIF/
+WebP. See [AUDIT.md](AUDIT.md).
+
+*Fix:* field measurement on a real device; further above-the-fold JS cuts if
+field LCP is still poor.
 ### KI-04 — Rate-limit counters are per process
 **Severity:** Low · **Status:** Accepted, documented
 

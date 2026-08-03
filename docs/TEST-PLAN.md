@@ -1,6 +1,8 @@
 # Test plan
 
-Last run: 2026-08-03 — **73 tests across 7 files, all passing.**
+Last run: 2026-08-04 — **79 tests across 8 files, all passing.** Accessibility
+and performance are measured separately via `npm run audit` — see
+[AUDIT.md](AUDIT.md) for the numbers.
 
 The distinction between automated and manual below is deliberate: anything
 listed under "manual" is *not* covered by the suite and must not be reported as
@@ -9,9 +11,10 @@ tested unless it has actually been walked through.
 ## Running
 
 ```bash
-npm run test        # single run, what CI executes
-npm run test:watch  # watch mode
-npm run verify      # lint → typecheck → test → build
+npm run test            # single run, what CI executes
+npm run test:watch      # watch mode
+npm run verify          # lint → typecheck → test → build
+npm run build && npm start && npm run audit   # axe + Lighthouse against prod
 ```
 
 Environment: Vitest 4 + jsdom + React Testing Library. `tests/setup.ts` stubs
