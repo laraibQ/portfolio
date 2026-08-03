@@ -11,6 +11,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "audit:a11y": "node scripts/audit-a11y.mjs",
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
+    "audit": "npm run audit:a11y && npm run audit:lighthouse",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
@@ -32,10 +35,13 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.5",
+    "axe-core": "^4.12.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "jsdom": "^30.0.1",
+    "lighthouse": "^13.4.1",
     "postcss": "^8.5.25",
+    "puppeteer-core": "^25.4.0",
     "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5",
