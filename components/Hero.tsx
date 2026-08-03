@@ -1,15 +1,16 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
-import { MagneticButton } from "@/components/ui/Motion";
+import Link from "next/link";
 import Avatar from "@/components/Avatar";
 
 const wordClass =
   "shrink-0 whitespace-nowrap font-display font-extrabold leading-none tracking-tight text-foreground text-2xl sm:text-4xl md:text-5xl lg:text-6xl";
 
+/**
+ * Deliberately a server component with CSS-only entrance animations: this is
+ * the LCP region, so nothing here may wait on hydration to become visible.
+ * CTAs are plain Links rather than MagneticButton so Framer Motion stays off
+ * the critical path — measured unused-JS savings of ~130KB on mobile.
+ */
 export default function Hero() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <section
       aria-labelledby="hero-heading"
@@ -23,31 +24,23 @@ export default function Hero() {
       </div>
 
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-3 py-14 sm:px-5 sm:py-20 lg:px-6">
-        <motion.p
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="mb-8 inline-flex items-center gap-2 rounded-full border border-line bg-panel px-4 py-1.5 backdrop-blur-md"
-        >
+        <p className="enter-up mb-8 inline-flex items-center gap-2 rounded-full border border-line bg-panel px-4 py-1.5 backdrop-blur-md">
           <span className="size-1.5 rounded-full bg-accent shadow-[0_0_10px_var(--accent)]" />
           <span className="text-[11px] font-medium tracking-[0.16em] text-muted uppercase">
             Hi, I&apos;m Laraib
           </span>
-        </motion.p>
+        </p>
 
         {/* Single-row desktop: WEB DESIGN | Avatar | AUTOMATION */}
         <h1
           id="hero-heading"
           className="flex w-full max-w-full flex-col items-center justify-center gap-4 sm:gap-3 md:flex-row md:flex-nowrap md:items-center md:gap-3 lg:gap-4"
         >
-          <motion.span
-            initial={reduceMotion ? false : { opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.45, delay: 0.08 }}
-            className={`${wordClass} order-2 md:order-1`}
+          <span
+            className={`${wordClass} enter-left order-2 [animation-delay:80ms] md:order-1`}
           >
             WEB DESIGN
-          </motion.span>
+          </span>
 
           {/* Decorative inside the heading so the accessible name stays "WEB DESIGN AUTOMATION". */}
           <span
@@ -57,46 +50,32 @@ export default function Hero() {
             <Avatar />
           </span>
 
-          <motion.span
-            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.45, delay: 0.12 }}
-            className={`${wordClass} order-3`}
+          <span
+            className={`${wordClass} enter-right order-3 [animation-delay:120ms]`}
           >
             AUTOMATION
-          </motion.span>
+          </span>
         </h1>
 
-        <motion.p
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-          className="mt-8 max-w-xl text-center text-base leading-relaxed text-muted sm:mt-10 sm:text-lg"
-        >
+        <p className="enter-up mt-8 max-w-xl text-center text-base leading-relaxed text-muted [animation-delay:200ms] sm:mt-10 sm:text-lg">
           Results-driven WordPress Developer &amp; Automation Builder, crafting
           high-performance websites and n8n workflows.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.35 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10 sm:gap-4"
-        >
-          <MagneticButton
+        <div className="enter-up mt-8 flex flex-wrap items-center justify-center gap-3 [animation-delay:280ms] sm:mt-10 sm:gap-4">
+          <Link
             href="/work"
-            className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-7 text-sm font-semibold tracking-tight text-dark shadow-[0_0_28px_color-mix(in_srgb,var(--accent)_40%,transparent)]"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-7 text-sm font-semibold tracking-tight text-dark shadow-[0_0_28px_color-mix(in_srgb,var(--accent)_40%,transparent)] transition-transform hover:scale-[1.03] active:scale-[0.98]"
           >
             Explore Work
-          </MagneticButton>
-          <MagneticButton
+          </Link>
+          <Link
             href="/#contact"
-            strength={14}
-            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-panel px-7 text-sm font-semibold tracking-tight text-foreground backdrop-blur-md hover:border-accent/50"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-panel px-7 text-sm font-semibold tracking-tight text-foreground backdrop-blur-md transition-colors hover:border-accent/50"
           >
             Get in Touch
-          </MagneticButton>
-        </motion.div>
+          </Link>
+        </div>
       </div>
     </section>
   );

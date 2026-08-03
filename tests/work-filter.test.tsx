@@ -36,7 +36,7 @@ describe("Work page filtering", () => {
 
     const panel = screen.getByRole("tabpanel");
     expect(
-      within(panel).getAllByRole("heading", { level: 3 }),
+      within(panel).getAllByRole("heading", { level: 2 }),
     ).toHaveLength(projects.length);
   });
 

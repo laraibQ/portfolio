@@ -69,10 +69,11 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
           ) : null}
         </div>
 
-        <h3 className="font-display text-2xl font-bold tracking-[-0.03em] text-foreground transition-colors group-hover:text-accent-text sm:text-3xl">
+        {/* h2, not h3: the page heading is the only heading above these cards. */}
+        <h2 className="font-display text-2xl font-bold tracking-[-0.03em] text-foreground transition-colors group-hover:text-accent-text sm:text-3xl">
           {project.title}
           {isLive ? <span className="sr-only"> (opens in a new tab)</span> : null}
-        </h3>
+        </h2>
         <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
           {project.description}
         </p>

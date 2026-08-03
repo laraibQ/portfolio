@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import "@fontsource/syne/500.css";
-import "@fontsource/syne/600.css";
-import "@fontsource/syne/700.css";
-import "@fontsource/syne/800.css";
+import { geistSans } from "./fonts";
+// Latin-only subsets: the full @fontsource/syne/*.css files also pull greek and
+// latin-ext faces that this English site never needs. 500 is unused — body copy
+// uses Geist, and display text only hits 600/700/800.
+import "@fontsource/syne/latin-600.css";
+import "@fontsource/syne/latin-700.css";
+import "@fontsource/syne/latin-800.css";
 import "./globals.css";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import { site } from "@/lib/site";
@@ -60,7 +61,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${geistSans.variable} h-full scroll-smooth antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />

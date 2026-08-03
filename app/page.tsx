@@ -1,13 +1,20 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import WhyMe from "@/components/WhyMe";
-import About from "@/components/About";
-import Services from "@/components/Services";
-import TechStack from "@/components/TechStack";
-import Projects from "@/components/Projects";
-import Experience from "@/components/Experience";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+
+/*
+ * Below-fold sections all pull Framer Motion for whileInView reveals. Loading
+ * them as separate chunks keeps that JS off the critical path for LCP — the
+ * hero and navbar still hydrate immediately.
+ */
+const WhyMe = dynamic(() => import("@/components/WhyMe"));
+const About = dynamic(() => import("@/components/About"));
+const Services = dynamic(() => import("@/components/Services"));
+const TechStack = dynamic(() => import("@/components/TechStack"));
+const Projects = dynamic(() => import("@/components/Projects"));
+const Experience = dynamic(() => import("@/components/Experience"));
+const Contact = dynamic(() => import("@/components/Contact"));
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (

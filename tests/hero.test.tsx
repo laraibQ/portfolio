@@ -27,4 +27,24 @@ describe("Hero", () => {
       "/#contact",
     );
   });
+
+  /**
+   * Framer Motion writes `initial` straight into the rendered markup, so an
+   * opacity-0 initial state here would leave the LCP region invisible until the
+   * bundle hydrates. That measured as a 3.5s gap between FCP and LCP on
+   * throttled mobile, and a permanently blank hero if JavaScript fails to run.
+   * Entrance animation for this section belongs in CSS.
+   */
+  it("paints its content without waiting for hydration", () => {
+    const { container } = render(<Hero />);
+
+    const hidden = [...container.querySelectorAll<HTMLElement>("*")].filter(
+      (element) =>
+        element.style.opacity === "0" ||
+        element.style.visibility === "hidden" ||
+        element.style.transform?.includes("scale(0)"),
+    );
+
+    expect(hidden.map((element) => element.outerHTML.slice(0, 120))).toEqual([]);
+  });
 });

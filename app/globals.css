@@ -12,8 +12,14 @@
   --foreground: #0f0f0f;
   --accent: #00bdf1;
 
-  /* #00bdf1 only reaches 2.1:1 on white, so light mode needs a darker accent for text. */
-  --accent-text: #00789a;
+  /*
+   * #00bdf1 only reaches 2.1:1 on white, so light mode needs a darker accent for
+   * text. Rated against the tinted panel and active-tab fills rather than pure
+   * white, because that is where it actually lands: 5.1:1 on those surfaces and
+   * 5.8:1 on white. An earlier #00789a passed on white but measured 4.43:1 on
+   * the panels, which axe caught.
+   */
+  --accent-text: #006e8c;
 
   --muted: #4b5563; /* 7.2:1 on white */
   --subtle: #6b7280; /* 4.8:1 on white */
@@ -68,7 +74,6 @@
   --color-panel-strong: var(--panel-strong);
   --color-surface: var(--surface);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -173,6 +178,76 @@ body {
 
 .bento-card:hover::before {
   opacity: 1;
+}
+
+/*
+ * Entrance animations for above-the-fold content are CSS, not Framer Motion.
+ * Framer Motion serialises `initial` into the server HTML, so an opacity-0
+ * initial state leaves the hero invisible until the bundle downloads and
+ * hydrates. Keyframes deliberately omit opacity: fading LCP candidates delayed
+ * paint by ~1s under mobile throttling. Motion is translate/scale only.
+ */
+@keyframes enter-up {
+  from {
+    translate: 0 14px;
+  }
+}
+
+@keyframes enter-left {
+  from {
+    translate: -14px 0;
+  }
+}
+
+@keyframes enter-right {
+  from {
+    translate: 14px 0;
+  }
+}
+
+@keyframes enter-scale {
+  from {
+    scale: 0.95;
+  }
+}
+
+@keyframes avatar-float {
+  0%,
+  100% {
+    translate: 0 -5px;
+  }
+  50% {
+    translate: 0 5px;
+  }
+}
+
+.enter-up,
+.enter-left,
+.enter-right,
+.enter-scale {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.enter-up {
+  animation-name: enter-up;
+}
+
+.enter-left {
+  animation-name: enter-left;
+}
+
+.enter-right {
+  animation-name: enter-right;
+}
+
+.enter-scale {
+  animation-name: enter-scale;
+}
+
+.avatar-float {
+  animation: avatar-float 5s ease-in-out infinite;
 }
 
 /*
