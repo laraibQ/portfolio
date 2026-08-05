@@ -39,16 +39,15 @@ export default function About() {
 
           <div className="max-w-md space-y-3 text-base leading-relaxed text-muted sm:text-lg">
             <p>
-              I&apos;m{" "}
-              <Em>Laraib</Em>.
+              I&apos;m <Em>Laraib</Em>.
             </p>
             <p>
-              Web <Em>designer</Em> &amp; <Em>automation</Em> builder shipping
-              clean <Em>WordPress</Em>, Webflow sites, <Em>Figma</Em> designs
-              and n8n workflows that actually reduce work.
+              <Em>Web Designer</Em> &amp; <Em>Automation</Em> builder shipping
+              clean <Em>WordPress</Em>, <Em>Webflow</Em> sites, <Em>Figma</Em>{" "}
+              designs and <Em>n8n workflows</Em> that actually reduce work.
             </p>
             <p>
-              I turn <Em>Figma</Em> into production-ready builds—pixel-accurate,
+              I turn <Em>Figma</Em> into production-ready builds, pixel-accurate,
               responsive, and ready for real browsers, not just mockups.
             </p>
           </div>
@@ -77,16 +76,16 @@ export default function About() {
 
           <div className="space-y-4 text-base leading-relaxed text-muted sm:text-lg">
             <p>
-              Results-driven Website <Em>designer</Em> and Developer with 2+
-              years building, customizing, and maintaining production sites for
-              international clients—Elementor, Webflow, <Em>Figma</Em>, custom
-              themes, plugin integration, and clean handoff.
+              Results-driven <Em>Website Designer</Em> and <Em>Developer</Em>{" "}
+              with 2+ years building, customizing, and maintaining production
+              sites for international clients. <Em>Elementor</Em>,{" "}
+              <Em>Webflow</Em>, <Em>Figma</Em>, custom themes, plugin
+              integration, and clean handoff.
             </p>
             <p>
-              Beyond the CMS layer, I build practical{" "}
-              <Em>n8n automation</Em> workflows—from client chatbots to outreach
-              systems—cutting hours of manual follow-up so launches stay on
-              schedule.
+              Beyond the CMS layer, I build practical <Em>n8n workflows</Em> from
+              client chatbots to outreach systems, cutting hours of manual
+              follow-up so launches stay on schedule.
             </p>
           </div>
 

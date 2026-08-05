@@ -2,11 +2,11 @@ import { MagneticLink } from "@/components/ui/Motion";
 import { HeroAvatarSlot } from "@/components/AvatarSlots";
 
 /*
- * Mobile (stacked): sized to keep AUTOMATION fully on-screen.
- * Desktop (inline with avatar): smaller so the full row fits.
+ * Mobile (stacked): sized so AUTOMATION fits.
+ * Desktop (inline with avatar): fluid vw clamp so W…N stay inside the row.
  */
 const wordClass =
-  "max-w-full whitespace-nowrap font-display font-extrabold leading-none tracking-[-0.04em] text-foreground text-[clamp(1.65rem,8vw,2.25rem)] sm:text-4xl md:text-3xl lg:text-4xl xl:text-[2.75rem]";
+  "whitespace-nowrap font-display font-extrabold leading-none tracking-[-0.05em] text-foreground text-[clamp(1.65rem,7.5vw,2.15rem)] sm:text-4xl md:text-[clamp(1.25rem,2.4vw,2.15rem)] lg:text-[clamp(1.4rem,2.6vw,2.4rem)]";
 
 /**
  * Server-rendered LCP region. Entrance motion is CSS-only (no opacity fade on
@@ -37,7 +37,7 @@ export default function Hero() {
 
         <h1
           id="hero-heading"
-          className="flex w-full max-w-full flex-col items-center justify-center gap-4 overflow-x-clip sm:gap-3 md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-2 lg:gap-3"
+          className="flex w-full max-w-full flex-col items-center justify-center gap-4 px-1 sm:gap-3 md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-2 lg:gap-3"
         >
           <span
             className={`${wordClass} enter-left order-2 [animation-delay:80ms] md:order-1`}
@@ -57,7 +57,7 @@ export default function Hero() {
         </h1>
 
         <p className="enter-up mt-8 max-w-xl text-center text-base leading-relaxed text-muted [animation-delay:200ms] sm:mt-10 sm:text-lg">
-          Results-driven website designer &amp; Automation Builder, crafting
+          Results-driven Website Designer &amp; Automation Builder, crafting
           high-performance websites and n8n workflows.
         </p>
 
