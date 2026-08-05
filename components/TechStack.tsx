@@ -1,41 +1,118 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { Reveal } from "@/components/ui/Motion";
+import type { IconType } from "react-icons";
+import {
+  FaCss3Alt,
+  FaElementor,
+  FaFigma,
+  FaGithub,
+  FaHtml5,
+  FaJs,
+  FaShopify,
+  FaWordpress,
+} from "react-icons/fa";
+import { RiClaudeFill, RiCursorAiFill } from "react-icons/ri";
+import {
+  SiGooglesearchconsole,
+  SiN8N,
+  SiShopify,
+  SiWebflow,
+} from "react-icons/si";
+import { Reveal, Stagger } from "@/components/ui/Motion";
+
+type TechKey =
+  | "WordPress"
+  | "Elementor"
+  | "Shopify"
+  | "Webflow"
+  | "Figma"
+  | "HTML5"
+  | "CSS3"
+  | "JavaScript"
+  | "Liquid"
+  | "n8n"
+  | "Cursor"
+  | "Claude AI"
+  | "Google Search Console"
+  | "GitHub";
+
+type TechMeta = {
+  label: TechKey;
+  Icon: IconType;
+  color: string;
+};
+
+const techMeta: Record<TechKey, TechMeta> = {
+  WordPress: { label: "WordPress", Icon: FaWordpress, color: "#21759B" },
+  Elementor: { label: "Elementor", Icon: FaElementor, color: "#92003B" },
+  Shopify: { label: "Shopify", Icon: FaShopify, color: "#95BF47" },
+  Webflow: { label: "Webflow", Icon: SiWebflow, color: "#4353FF" },
+  Figma: { label: "Figma", Icon: FaFigma, color: "#F24E1E" },
+  HTML5: { label: "HTML5", Icon: FaHtml5, color: "#E34F26" },
+  CSS3: { label: "CSS3", Icon: FaCss3Alt, color: "#1572B6" },
+  JavaScript: { label: "JavaScript", Icon: FaJs, color: "#F7DF1E" },
+  Liquid: { label: "Liquid", Icon: SiShopify, color: "#95BF47" },
+  n8n: { label: "n8n", Icon: SiN8N, color: "#EA4B71" },
+  Cursor: { label: "Cursor", Icon: RiCursorAiFill, color: "#00BDF1" },
+  "Claude AI": { label: "Claude AI", Icon: RiClaudeFill, color: "#D97757" },
+  "Google Search Console": {
+    label: "Google Search Console",
+    Icon: SiGooglesearchconsole,
+    color: "#4285F4",
+  },
+  GitHub: { label: "GitHub", Icon: FaGithub, color: "currentColor" },
+};
 
 const categories = [
   {
     title: "CMS & Builders",
-    items: ["WordPress", "Elementor", "Shopify", "Webflow", "Figma"],
+    items: [
+      "WordPress",
+      "Elementor",
+      "Shopify",
+      "Webflow",
+      "Figma",
+    ] as const satisfies readonly TechKey[],
   },
   {
     title: "Languages & Core",
-    items: ["HTML5", "CSS3", "JavaScript", "Liquid"],
+    items: [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Liquid",
+    ] as const satisfies readonly TechKey[],
   },
   {
     title: "Automation & Tools",
-    items: ["n8n", "Cursor", "Claude AI", "Google Search Console", "GitHub"],
+    items: [
+      "n8n",
+      "Cursor",
+      "Claude AI",
+      "Google Search Console",
+      "GitHub",
+    ] as const satisfies readonly TechKey[],
   },
 ] as const;
 
-const marqueeItems = [
-  "WordPress",
-  "Elementor",
-  "Shopify",
-  "Webflow",
-  "Figma",
-  "Liquid",
-  "JavaScript",
-  "n8n",
-  "Cursor",
-  "Claude AI",
-  "SEO",
-  "GitHub",
-];
+function TechPill({
+  tech,
+  className,
+}: {
+  tech: TechKey;
+  className?: string;
+}) {
+  const { label, Icon, color } = techMeta[tech];
+
+  return (
+    <span className={className}>
+      <Icon className="size-3.5 shrink-0" style={{ color }} aria-hidden />
+      <span>{label}</span>
+    </span>
+  );
+}
 
 export default function TechStack() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <section
       id="tech-stack"
@@ -59,18 +136,10 @@ export default function TechStack() {
           </p>
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {categories.map((category, index) => (
-            <motion.div
+        <Stagger className="grid gap-4 md:grid-cols-3" stagger={0.1}>
+          {categories.map((category) => (
+            <div
               key={category.title}
-              initial={reduceMotion ? false : { opacity: 0, y: 32, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-                delay: index * 0.08,
-              }}
               className="glass-panel rounded-3xl p-6 sm:p-7"
             >
               <h3 className="mb-5 text-[11px] font-medium tracking-[0.18em] text-accent-text uppercase">
@@ -78,55 +147,17 @@ export default function TechStack() {
               </h3>
               <ul className="flex flex-wrap gap-2">
                 {category.items.map((item) => (
-                  <motion.li
-                    key={item}
-                    whileHover={
-                      reduceMotion
-                        ? undefined
-                        : {
-                            scale: 1.05,
-                            borderColor:
-                              "color-mix(in srgb, var(--accent) 55%, transparent)",
-                            color: "var(--accent)",
-                            boxShadow:
-                              "0 0 20px color-mix(in srgb, var(--accent) 18%, transparent)",
-                          }
-                    }
-                    className="cursor-default rounded-full border border-line bg-panel px-3.5 py-1.5 text-sm text-muted transition-colors"
-                  >
-                    {item}
-                  </motion.li>
+                  <li key={item}>
+                    <TechPill
+                      tech={item}
+                      className="inline-flex cursor-default items-center gap-2 rounded-full border border-line bg-panel px-3.5 py-1.5 text-sm text-muted transition-all hover:scale-105 hover:border-accent/55 hover:text-accent-text hover:shadow-[0_0_20px_color-mix(in_srgb,var(--accent)_18%,transparent)]"
+                    />
+                  </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           ))}
-        </div>
-      </div>
-
-      {/* Infinite marquee strip */}
-      <div className="relative overflow-hidden border-y border-hairline py-5">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent sm:w-28" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent sm:w-28" />
-
-        <motion.div
-          className="flex w-max gap-3"
-          animate={reduceMotion ? undefined : { x: ["0%", "-50%"] }}
-          transition={
-            reduceMotion
-              ? undefined
-              : { duration: 28, ease: "linear", repeat: Infinity }
-          }
-        >
-          {[...marqueeItems, ...marqueeItems].map((item, index) => (
-            <span
-              key={`${item}-${index}`}
-              className="inline-flex items-center gap-2 rounded-full border border-line bg-panel px-4 py-2 text-xs tracking-[0.14em] text-muted uppercase"
-            >
-              <span className="size-1 rounded-full bg-accent/80" />
-              {item}
-            </span>
-          ))}
-        </motion.div>
+        </Stagger>
       </div>
     </section>
   );

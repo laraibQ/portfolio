@@ -1,14 +1,20 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import About from "@/components/About";
+import HeroAboutBridge from "@/components/HeroAboutBridge";
+import ScrollProgress from "@/components/ScrollProgress";
+import ParallaxOrbs from "@/components/ParallaxOrbs";
 
 /*
- * Below-fold sections all pull Framer Motion for whileInView reveals. Loading
- * them as separate chunks keeps that JS off the critical path for LCP — the
- * hero and navbar still hydrate immediately.
+ * Below-fold sections pull GSAP ScrollTrigger. Loading them as separate chunks
+ * keeps that JS off the critical path for LCP — the hero stays CSS-only and
+ * the navbar hydrates immediately. About stays eager so the avatar flip slots
+ * exist as soon as the Hero→About bridge mounts.
  */
 const WhyMe = dynamic(() => import("@/components/WhyMe"));
-const About = dynamic(() => import("@/components/About"));
+const TechMarquee = dynamic(() => import("@/components/TechMarquee"));
+const ProjectsMarquee = dynamic(() => import("@/components/ProjectsMarquee"));
 const Services = dynamic(() => import("@/components/Services"));
 const TechStack = dynamic(() => import("@/components/TechStack"));
 const Projects = dynamic(() => import("@/components/Projects"));
@@ -20,13 +26,16 @@ export default function Home() {
   return (
     <div
       id="top"
-      className="relative flex min-h-full flex-1 flex-col overflow-x-hidden bg-background"
+      className="relative flex min-h-full flex-1 flex-col bg-background"
     >
+      <ScrollProgress />
+      <ParallaxOrbs />
       <Navbar />
       <main id="main" className="flex flex-1 flex-col">
-        <Hero />
+        <HeroAboutBridge hero={<Hero />} about={<About />} />
+        <ProjectsMarquee />
         <WhyMe />
-        <About />
+        <TechMarquee />
         <Services />
         <TechStack />
         <Projects />

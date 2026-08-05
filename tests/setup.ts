@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { afterEach } from "vitest";
 import { cleanup } from "@testing-library/react";
 
-/** jsdom has no matchMedia; framer-motion and lib/theme both rely on it. */
+/** jsdom has no matchMedia; lib/theme and reduced-motion checks rely on it. */
 if (!window.matchMedia) {
   window.matchMedia = ((query: string) => ({
     matches: false,
@@ -16,7 +16,7 @@ if (!window.matchMedia) {
   })) as typeof window.matchMedia;
 }
 
-/** jsdom has no IntersectionObserver; framer-motion's whileInView needs one. */
+/** jsdom has no IntersectionObserver; keep a stub for any scroll libraries. */
 // Held in a variable so TypeScript does not narrow `window` itself to `never`.
 const hasIntersectionObserver = "IntersectionObserver" in window;
 

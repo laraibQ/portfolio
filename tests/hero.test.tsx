@@ -4,6 +4,10 @@ import Hero from "@/components/Hero";
 
 // The avatar pulls in Next's static image pipeline, which is out of scope here.
 vi.mock("@/components/Avatar", () => ({ default: () => null }));
+vi.mock("@/components/AvatarSlots", () => ({
+  HeroAvatarSlot: () => null,
+  AboutAvatarSlot: () => null,
+}));
 
 describe("Hero", () => {
   it("exposes a single real level-one heading", () => {

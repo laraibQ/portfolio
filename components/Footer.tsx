@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUp, Mail } from "lucide-react";
 import { contactInfo } from "@/data/portfolioData";
+import { Reveal } from "@/components/ui/Motion";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -15,61 +15,52 @@ function LinkedInIcon({ className }: { className?: string }) {
 const year = new Date().getFullYear();
 
 export default function Footer() {
-  const reduceMotion = useReducedMotion();
-
   return (
-    <motion.footer
-      initial={reduceMotion ? false : { opacity: 0, y: 30, scale: 0.99 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="border-t border-hairline"
-    >
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-        <div className="space-y-2">
-          <a
-            href="#top"
-            className="font-display text-lg font-bold tracking-tight text-foreground transition-colors hover:text-accent-text"
-          >
-            {contactInfo.name}
-          </a>
-          <p className="text-sm text-subtle">
-            WordPress Developer · Automation Builder
-          </p>
-          <p className="text-xs text-subtle">
-            © {year} {contactInfo.name}. Crafted with intention.
-          </p>
-        </div>
+    <Reveal>
+      <footer className="border-t border-hairline">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+          <div className="space-y-2">
+            <a
+              href="#top"
+              className="font-display text-lg font-bold tracking-tight text-foreground transition-colors hover:text-accent-text"
+            >
+              {contactInfo.name}
+            </a>
+            <p className="text-sm text-subtle">
+              WordPress Developer · Automation Builder
+            </p>
+            <p className="text-xs text-subtle">
+              © {year} {contactInfo.name}. Crafted with intention.
+            </p>
+          </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <motion.a
-            href={`mailto:${contactInfo.email}`}
-            aria-label="Email"
-            whileHover={{ scale: 1.08, borderColor: "var(--accent)" }}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-panel text-muted backdrop-blur-md hover:text-accent-text"
-          >
-            <Mail className="size-4" strokeWidth={1.75} />
-          </motion.a>
-          <motion.a
-            href={contactInfo.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            whileHover={{ scale: 1.08, borderColor: "var(--accent)" }}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-panel text-muted backdrop-blur-md hover:text-accent-text"
-          >
-            <LinkedInIcon className="size-4" />
-          </motion.a>
-          <motion.a
-            href="#top"
-            whileHover={{ scale: 1.04, borderColor: "var(--accent)", color: "var(--accent)" }}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-panel px-4 text-xs font-medium tracking-wide text-muted backdrop-blur-md"
-          >
-            Back to top
-            <ArrowUp className="size-3.5" strokeWidth={1.75} />
-          </motion.a>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={`mailto:${contactInfo.email}`}
+              aria-label="Email"
+              className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-panel text-muted backdrop-blur-md transition-transform hover:scale-105 hover:border-accent hover:text-accent-text"
+            >
+              <Mail className="size-4" strokeWidth={1.75} />
+            </a>
+            <a
+              href={contactInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-panel text-muted backdrop-blur-md transition-transform hover:scale-105 hover:border-accent hover:text-accent-text"
+            >
+              <LinkedInIcon className="size-4" />
+            </a>
+            <a
+              href="#top"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-panel px-4 text-xs font-medium tracking-wide text-muted backdrop-blur-md transition-colors hover:border-accent hover:text-accent-text"
+            >
+              Back to top
+              <ArrowUp className="size-3.5" strokeWidth={1.75} />
+            </a>
+          </div>
         </div>
-      </div>
-    </motion.footer>
+      </footer>
+    </Reveal>
   );
 }

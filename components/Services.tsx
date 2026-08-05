@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { Reveal, Stagger } from "@/components/ui/Motion";
 import {
   Smartphone,
   Code2,
@@ -8,7 +8,6 @@ import {
   Workflow,
   type LucideIcon,
 } from "lucide-react";
-import { Reveal } from "@/components/ui/Motion";
 
 type Service = {
   title: string;
@@ -63,18 +62,12 @@ const services: Service[] = [
 ];
 
 export default function Services() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <section
       id="services"
       aria-labelledby="services-heading"
       className="relative border-t border-hairline"
     >
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="glow-orb top-0 left-1/4 h-72 w-72 bg-[color-mix(in_srgb,var(--accent)_10%,transparent)]" />
-      </div>
-
       <div className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         <Reveal className="mb-14 max-w-2xl">
           <p className="mb-4 text-[11px] font-medium tracking-[0.22em] text-accent-text uppercase">
@@ -94,33 +87,13 @@ export default function Services() {
           </p>
         </Reveal>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:gap-5">
-          {services.map((service, index) => {
+        <Stagger className="grid gap-4 sm:grid-cols-2 lg:gap-5" stagger={0.1}>
+          {services.map((service) => {
             const Icon = service.icon;
-
             return (
-              <motion.article
+              <article
                 key={service.title}
-                initial={reduceMotion ? false : { opacity: 0, y: 36, scale: 0.98 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{
-                  duration: 0.65,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: index * 0.08,
-                }}
-                whileHover={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        y: -4,
-                        borderColor:
-                          "color-mix(in srgb, var(--accent) 50%, transparent)",
-                        boxShadow:
-                          "0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent), 0 24px 50px color-mix(in srgb, var(--accent) 10%, transparent)",
-                      }
-                }
-                className="group glass-panel relative overflow-hidden rounded-3xl p-6 sm:p-8"
+                className="group glass-panel relative overflow-hidden rounded-3xl p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8"
               >
                 <div
                   aria-hidden
@@ -130,19 +103,16 @@ export default function Services() {
                       "radial-gradient(500px circle at 20% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 45%)",
                   }}
                 />
-
                 <div className="relative z-10">
                   <div className="mb-6 inline-flex size-11 items-center justify-center rounded-2xl border border-line bg-panel text-accent-text transition-all group-hover:border-accent/40 group-hover:shadow-[0_0_24px_color-mix(in_srgb,var(--accent)_30%,transparent)]">
                     <Icon className="size-5" strokeWidth={1.75} />
                   </div>
-
                   <h3 className="font-display text-xl font-bold tracking-[-0.03em] text-foreground sm:text-2xl">
                     {service.title}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
                     {service.description}
                   </p>
-
                   <ul className="mt-6 flex flex-wrap gap-2">
                     {service.points.map((point) => (
                       <li
@@ -154,10 +124,10 @@ export default function Services() {
                     ))}
                   </ul>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

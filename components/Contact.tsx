@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import { Loader2, Mail, Phone } from "lucide-react";
 import { contactInfo } from "@/data/portfolioData";
 import { Reveal } from "@/components/ui/Motion";
@@ -37,7 +36,6 @@ type Status = "idle" | "submitting" | "success" | "error";
 const EMPTY: ContactPayload = { name: "", email: "", message: "" };
 
 export default function Contact() {
-  const reduceMotion = useReducedMotion();
   const [values, setValues] = useState<ContactPayload>(EMPTY);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -157,19 +155,18 @@ export default function Contact() {
               },
             ].map((item) => (
               <li key={item.label}>
-                <motion.a
+                <a
                   href={item.href}
                   {...(item.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  whileHover={reduceMotion ? undefined : { x: 6 }}
-                  className="glass-panel group inline-flex min-h-11 w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm text-muted transition-colors hover:text-accent-text"
+                  className="glass-panel group inline-flex min-h-11 w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm text-muted transition-all hover:translate-x-1.5 hover:text-accent-text"
                 >
                   <span className="inline-flex size-9 items-center justify-center rounded-full border border-line bg-panel group-hover:border-accent/40">
                     {item.icon}
                   </span>
                   {item.label}
-                </motion.a>
+                </a>
               </li>
             ))}
           </ul>
@@ -276,20 +273,10 @@ export default function Contact() {
             </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <motion.button
+              <button
                 type="submit"
                 disabled={submitting}
-                whileHover={
-                  reduceMotion || submitting
-                    ? undefined
-                    : {
-                        scale: 1.03,
-                        boxShadow:
-                          "0 0 32px color-mix(in srgb, var(--accent) 40%, transparent)",
-                      }
-                }
-                whileTap={submitting ? undefined : { scale: 0.97 }}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-semibold text-dark disabled:cursor-not-allowed disabled:opacity-70"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-accent px-7 text-sm font-semibold text-dark transition-transform hover:scale-[1.03] hover:shadow-[0_0_32px_color-mix(in_srgb,var(--accent)_40%,transparent)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
               >
                 {submitting ? (
                   <>
@@ -299,7 +286,7 @@ export default function Contact() {
                 ) : (
                   "Send Message"
                 )}
-              </motion.button>
+              </button>
             </div>
 
             <div aria-live="polite" className="min-h-5">

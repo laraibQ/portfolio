@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
+import ScrollProgress from "@/components/ScrollProgress";
 import WorkClient from "./WorkClient";
 
 const Footer = dynamic(() => import("@/components/Footer"));
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <div className="relative flex min-h-full flex-1 flex-col overflow-x-hidden bg-background">
+      <ScrollProgress />
       <Navbar />
       <main id="main" className="flex flex-1 flex-col">
         <WorkClient />

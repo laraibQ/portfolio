@@ -1,7 +1,12 @@
 "use client";
 
-import { useMemo, useRef, useState, type KeyboardEvent } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import {
@@ -10,6 +15,7 @@ import {
   type Project,
   type ProjectFilterId,
 } from "@/data/portfolioData";
+import { ensureGsap, gsap, shouldAnimate, EASE } from "@/lib/gsap";
 
 function categoryLabel(category: Project["category"]) {
   if (category === "automation") return "Automation";
@@ -17,43 +23,14 @@ function categoryLabel(category: Project["category"]) {
   return "Web Design";
 }
 
-function WorkCard({ project, index }: { project: Project; index: number }) {
-  const reduceMotion = useReducedMotion();
+function WorkCard({ project }: { project: Project }) {
   const isLive = Boolean(project.url);
-  const MotionTag = isLive ? motion.a : motion.div;
+  const className = `bento-card group flex min-h-[260px] flex-col justify-between rounded-3xl p-6 transition-transform duration-300 hover:-translate-y-1.5 sm:p-7 ${
+    isLive ? "cursor-pointer" : ""
+  }`;
 
-  return (
-    <MotionTag
-      {...(isLive
-        ? {
-            href: project.url!,
-            target: "_blank",
-            rel: "noopener noreferrer",
-          }
-        : {})}
-      layout
-      initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 16, scale: 0.98 }}
-      transition={{
-        duration: 0.45,
-        ease: [0.22, 1, 0.36, 1],
-        delay: reduceMotion ? 0 : index * 0.05,
-      }}
-      whileHover={
-        reduceMotion
-          ? undefined
-          : {
-              y: -6,
-              borderColor: "color-mix(in srgb, var(--accent) 55%, transparent)",
-              boxShadow:
-                "0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent), 0 24px 50px color-mix(in srgb, var(--accent) 10%, transparent)",
-            }
-      }
-      className={`bento-card group flex min-h-[260px] flex-col justify-between rounded-3xl p-6 sm:p-7 ${
-        isLive ? "cursor-pointer" : ""
-      }`}
-    >
+  const content = (
+    <>
       <div>
         <div className="mb-5 flex items-start justify-between gap-3">
           <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.16em] text-accent-text uppercase">
@@ -69,7 +46,6 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
           ) : null}
         </div>
 
-        {/* h2, not h3: the page heading is the only heading above these cards. */}
         <h2 className="font-display text-2xl font-bold tracking-[-0.03em] text-foreground transition-colors group-hover:text-accent-text sm:text-3xl">
           {project.title}
           {isLive ? <span className="sr-only"> (opens in a new tab)</span> : null}
@@ -89,21 +65,66 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
           </li>
         ))}
       </ul>
-    </MotionTag>
+    </>
+  );
+
+  if (isLive) {
+    return (
+      <a
+        href={project.url!}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+        data-work-card
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <div className={className} data-work-card>
+      {content}
+    </div>
   );
 }
 
 export default function WorkClient() {
   const [filter, setFilter] = useState<ProjectFilterId>("all");
-  const reduceMotion = useReducedMotion();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
     if (filter === "all") return projects;
     return projects.filter((project) => project.category === filter);
   }, [filter]);
 
-  /** Roving tabindex per the WAI-ARIA tabs pattern. */
+  useLayoutEffect(() => {
+    const grid = gridRef.current;
+    if (!grid || !shouldAnimate()) return;
+
+    ensureGsap();
+    const cards = grid.querySelectorAll("[data-work-card]");
+    if (!cards.length) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cards,
+        { autoAlpha: 0, y: 24, scale: 0.98 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.45,
+          stagger: 0.05,
+          ease: EASE,
+        },
+      );
+    }, grid);
+
+    return () => ctx.revert();
+  }, [filter]);
+
   function onTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const lastIndex = projectFilters.length - 1;
     let nextIndex: number | null = null;
@@ -127,11 +148,7 @@ export default function WorkClient() {
       </div>
 
       <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div className="enter-up">
           <Link
             href="/#projects"
             className="mb-8 inline-flex min-h-11 items-center gap-2 text-sm text-muted transition-colors hover:text-accent-text"
@@ -150,13 +167,10 @@ export default function WorkClient() {
             Explore live web builds, UI/UX-led launches, and n8n automation
             systems—filter by category to find what you need.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex flex-wrap gap-2"
+        <div
+          className="enter-up mt-10 flex flex-wrap gap-2 [animation-delay:120ms]"
           role="tablist"
           aria-label="Project categories"
         >
@@ -186,7 +200,7 @@ export default function WorkClient() {
               </button>
             );
           })}
-        </motion.div>
+        </div>
 
         <div
           id="work-panel"
@@ -217,16 +231,14 @@ export default function WorkClient() {
               </button>
             </div>
           ) : (
-            <motion.div
-              layout
+            <div
+              ref={gridRef}
               className="mt-8 grid gap-4 sm:grid-cols-2 lg:gap-5"
             >
-              <AnimatePresence mode="popLayout">
-                {filtered.map((project, index) => (
-                  <WorkCard key={project.id} project={project} index={index} />
-                ))}
-              </AnimatePresence>
-            </motion.div>
+              {filtered.map((project) => (
+                <WorkCard key={project.id} project={project} />
+              ))}
+            </div>
           )}
         </div>
       </div>

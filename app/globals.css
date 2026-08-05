@@ -251,12 +251,57 @@ body {
 }
 
 /*
- * Framer Motion is gated per-component with useReducedMotion, but CSS
+ * When the scroll-flip card is active, hide static slot avatars but keep their
+ * box for layout measurement. Reduced-motion clears data-avatar-flip.
+ */
+html[data-avatar-flip="on"] .avatar-slot-static {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tech-marquee {
+  animation: tech-marquee 28s linear infinite;
+}
+
+@keyframes tech-marquee {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -50% 0;
+  }
+}
+
+.projects-marquee {
+  animation: projects-marquee 42s linear infinite;
+  will-change: translate;
+}
+
+.projects-marquee-track:hover .projects-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes projects-marquee {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -50% 0;
+  }
+}
+
+/*
+ * GSAP is gated with shouldAnimate / prefers-reduced-motion, but CSS
  * animations and transitions need a global escape hatch too.
  */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .tech-marquee,
+  .projects-marquee {
+    animation: none;
   }
 
   *,
