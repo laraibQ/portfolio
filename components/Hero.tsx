@@ -2,12 +2,11 @@ import { MagneticLink } from "@/components/ui/Motion";
 import { HeroAvatarSlot } from "@/components/AvatarSlots";
 
 /*
- * Fluid type so WEB DESIGN · avatar · AUTOMATION stays on one row inside the
- * viewport. Sized against remaining width after the avatar (~12–13rem) and
- * side padding — never rely on shrink-0 at a fixed 6xl.
+ * Mobile (stacked): larger display type. Desktop (inline with avatar): smaller
+ * so WEB DESIGN · avatar · AUTOMATION fits the viewport without clipping.
  */
 const wordClass =
-  "whitespace-nowrap font-display font-extrabold leading-none tracking-[-0.04em] text-foreground text-[clamp(1.15rem,calc((100vw-16rem)/11),3.5rem)]";
+  "whitespace-nowrap font-display font-extrabold leading-none tracking-[-0.04em] text-foreground text-4xl sm:text-5xl md:text-3xl lg:text-4xl xl:text-[2.75rem]";
 
 /**
  * Server-rendered LCP region. Entrance motion is CSS-only (no opacity fade on

@@ -113,33 +113,37 @@ export default function Navbar() {
 
       <div
         id="mobile-nav"
-        className={`grid overflow-hidden border-line bg-background/95 backdrop-blur-xl transition-[grid-template-rows] duration-300 ease-out md:hidden ${
-          open ? "grid-rows-[1fr] border-t" : "grid-rows-[0fr] border-t-0"
+        className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out md:hidden ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}
       >
-        <nav
-          aria-label="Mobile"
-          className="min-h-0 mx-auto flex w-full max-w-6xl flex-col gap-1 px-4 py-5"
-          inert={!open ? true : undefined}
-        >
-          {NAV_LINKS.map((link) => {
-            const href = isHome && link.homeHash ? link.homeHash : link.href;
-            const active = link.href === "/work" && pathname === "/work";
+        <div className="min-h-0 overflow-hidden">
+          <nav
+            aria-label="Mobile"
+            className={`mx-auto flex w-full max-w-6xl flex-col gap-1 border-line bg-background/95 px-4 py-5 backdrop-blur-xl ${
+              open ? "border-t" : "border-t-0"
+            }`}
+            inert={!open ? true : undefined}
+          >
+            {NAV_LINKS.map((link) => {
+              const href = isHome && link.homeHash ? link.homeHash : link.href;
+              const active = link.href === "/work" && pathname === "/work";
 
-            return (
-              <Link
-                key={link.href}
-                href={href}
-                onClick={() => setOpen(false)}
-                aria-current={active ? "page" : undefined}
-                tabIndex={open ? undefined : -1}
-                className="flex min-h-11 items-center rounded-xl px-3 text-sm text-muted transition-colors hover:bg-panel-strong hover:text-accent-text"
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
+              return (
+                <Link
+                  key={link.href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  tabIndex={open ? undefined : -1}
+                  className="flex min-h-11 items-center rounded-xl px-3 text-sm text-muted transition-colors hover:bg-panel-strong hover:text-accent-text"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
       </div>
     </header>
   );
