@@ -138,9 +138,10 @@ export default function Contact() {
           <ul className="mt-10 space-y-3">
             {[
               {
-                href: `mailto:${contactInfo.email}`,
+                href: contactInfo.emailHref,
                 label: contactInfo.email,
                 icon: <Mail className="size-4" strokeWidth={1.75} />,
+                external: true,
               },
               {
                 href: contactInfo.phoneHref,

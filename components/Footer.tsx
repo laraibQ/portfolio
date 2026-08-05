@@ -36,7 +36,9 @@ export default function Footer() {
 
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href={`mailto:${contactInfo.email}`}
+              href={contactInfo.emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Email"
               className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-panel text-muted backdrop-blur-md transition-transform hover:scale-105 hover:border-accent hover:text-accent-text"
             >

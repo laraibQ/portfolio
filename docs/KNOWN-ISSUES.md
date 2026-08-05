@@ -62,14 +62,11 @@ per 10 minutes. See [ADR 0003](adr/0003-contact-form-delivery.md).
 ---
 
 ### KI-05 — LinkedIn URL is unverified
-**Severity:** Low · **Status:** Needs owner confirmation
+**Severity:** Low · **Status:** Resolved
 
-`contactInfo.linkedin` in `data/portfolioData.ts` is
-`https://www.linkedin.com/in/laraibmujahid`. This was inferred, not confirmed.
-If the vanity URL differs, the footer and contact links 404 — a bad first
-impression for exactly the audience most likely to click it.
-
-*Fix:* confirm the real profile URL and update the one constant.
+Confirmed profile: `https://www.linkedin.com/in/laraib-mujahid` (hyphenated
+slug). Updated in `data/portfolioData.ts`. The previous vanity URL without a
+hyphen 404'd.
 
 ---
 

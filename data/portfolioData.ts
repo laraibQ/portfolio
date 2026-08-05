@@ -155,7 +155,10 @@ export const experience: ExperienceItem[] = [
 export const contactInfo = {
   name: "Laraib Mujahid",
   email: "laraibmujahid25@gmail.com",
+  /** Opens Gmail compose in the browser (falls back gracefully if blocked). */
+  emailHref:
+    "https://mail.google.com/mail/?view=cm&fs=1&to=laraibmujahid25@gmail.com",
   phone: "+92 341 145 0024",
   phoneHref: "tel:+923411450024",
-  linkedin: "https://www.linkedin.com/in/laraibmujahid",
+  linkedin: "https://www.linkedin.com/in/laraib-mujahid",
 } as const;
