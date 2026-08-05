@@ -2,11 +2,11 @@ import { MagneticLink } from "@/components/ui/Motion";
 import { HeroAvatarSlot } from "@/components/AvatarSlots";
 
 /*
- * Mobile (stacked): larger display type. Desktop (inline with avatar): smaller
- * so WEB DESIGN · avatar · AUTOMATION fits the viewport without clipping.
+ * Mobile (stacked): sized to keep AUTOMATION fully on-screen.
+ * Desktop (inline with avatar): smaller so the full row fits.
  */
 const wordClass =
-  "whitespace-nowrap font-display font-extrabold leading-none tracking-[-0.04em] text-foreground text-4xl sm:text-5xl md:text-3xl lg:text-4xl xl:text-[2.75rem]";
+  "max-w-full whitespace-nowrap font-display font-extrabold leading-none tracking-[-0.04em] text-foreground text-[clamp(1.65rem,8vw,2.25rem)] sm:text-4xl md:text-3xl lg:text-4xl xl:text-[2.75rem]";
 
 /**
  * Server-rendered LCP region. Entrance motion is CSS-only (no opacity fade on
@@ -18,9 +18,9 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative isolate flex min-h-svh items-center pt-16"
+      className="relative isolate flex min-h-svh items-center overflow-x-clip pt-16"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-background" />
         <div className="site-grid absolute inset-0" />
         <div className="glow-orb top-[-8%] left-1/2 h-[420px] w-[420px] -translate-x-1/2 bg-[color-mix(in_srgb,var(--accent)_16%,transparent)]" />
@@ -37,7 +37,7 @@ export default function Hero() {
 
         <h1
           id="hero-heading"
-          className="flex w-full max-w-full flex-col items-center justify-center gap-4 sm:gap-3 md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-2 lg:gap-3"
+          className="flex w-full max-w-full flex-col items-center justify-center gap-4 overflow-x-clip sm:gap-3 md:flex-row md:flex-nowrap md:items-center md:justify-center md:gap-2 lg:gap-3"
         >
           <span
             className={`${wordClass} enter-left order-2 [animation-delay:80ms] md:order-1`}
@@ -57,7 +57,7 @@ export default function Hero() {
         </h1>
 
         <p className="enter-up mt-8 max-w-xl text-center text-base leading-relaxed text-muted [animation-delay:200ms] sm:mt-10 sm:text-lg">
-          Results-driven WordPress Developer &amp; Automation Builder, crafting
+          Results-driven website designer &amp; Automation Builder, crafting
           high-performance websites and n8n workflows.
         </p>
 

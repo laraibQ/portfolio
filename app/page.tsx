@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div
       id="top"
-      className="relative flex min-h-full flex-1 flex-col bg-background"
+      className="relative flex min-h-full flex-1 flex-col overflow-x-hidden bg-background"
     >
       <ScrollProgress />
       <ParallaxOrbs />
