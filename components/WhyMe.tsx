@@ -1,7 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
-import { ensureGsap, gsap, shouldAnimate } from "@/lib/gsap";
+import { ensureGsap, gsap, ScrollTrigger, shouldAnimate } from "@/lib/gsap";
 
 /** Every claim here maps to something verifiable in the experience timeline. */
 const reasons = [
@@ -30,10 +30,11 @@ const reasons = [
 /**
  * Stack lives only inside Why Me. The section itself is NOT pinned — a tall
  * track on the right drives the scrub, while left copy + card viewport use
- * CSS sticky. That way About / Services / Tech Stack scroll normally afterward
- * instead of sliding over a pinned section.
+ * CSS sticky. Avoid overflow-x-hidden on page ancestors: that creates a scroll
+ * container and breaks sticky, which is what made this feel broken on Vercel.
  */
 export default function WhyMe() {
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const stackRef = useRef<HTMLOListElement>(null);
 
@@ -52,8 +53,6 @@ export default function WhyMe() {
       if (cards.length < 2) return;
 
       const tallest = Math.max(...cards.map((card) => card.offsetHeight));
-      // Keep CSS `position: sticky` — overriding it with `relative` was letting
-      // the stack scroll off-screen while only the left column stayed put.
       gsap.set(stack, {
         height: tallest,
         overflow: "hidden",
@@ -64,27 +63,37 @@ export default function WhyMe() {
         right: 0,
         top: 0,
         marginBottom: 0,
+        width: "100%",
       });
 
       gsap.set(cards[0], { yPercent: 0, zIndex: 100 });
       cards.slice(1).forEach((card, i) => {
-        gsap.set(card, { yPercent: 110, zIndex: 140 + i * 40 });
+        gsap.set(card, { yPercent: 120, zIndex: 140 + i * 40 });
       });
 
       const tl = gsap.timeline({
-        defaults: { ease: "none" },
+        defaults: { ease: "none", overwrite: "auto" },
         scrollTrigger: {
           trigger: track,
-          start: "top top+=112",
+          // Match sticky top-28 (7rem) used by the aside + stack.
+          start: "top top+=7rem",
           end: "bottom bottom",
-          scrub: 0.7,
+          scrub: 0.55,
           invalidateOnRefresh: true,
         },
       });
 
       cards.slice(1).forEach((card) => {
-        tl.to(card, { yPercent: 0, duration: 1 });
+        tl.to(card, { yPercent: 0, duration: 1 }, "+=0.05");
       });
+
+      const refresh = () => ScrollTrigger.refresh();
+      requestAnimationFrame(refresh);
+      window.addEventListener("load", refresh, { once: true });
+
+      return () => {
+        window.removeEventListener("load", refresh);
+      };
     });
 
     return () => mm.revert();
@@ -92,6 +101,7 @@ export default function WhyMe() {
 
   return (
     <section
+      ref={sectionRef}
       id="why-me"
       aria-labelledby="why-me-heading"
       className="relative z-0 border-t border-hairline"
@@ -118,11 +128,11 @@ export default function WhyMe() {
         {/* Tall track = scroll distance for the stack. Not a page pin. */}
         <div
           ref={trackRef}
-          className="relative lg:h-[min(320vh,2200px)]"
+          className="relative lg:h-[min(360vh,2600px)]"
         >
           <ol
             ref={stackRef}
-            className="relative flex flex-col gap-4 lg:sticky lg:top-28"
+            className="relative flex flex-col gap-4 lg:sticky lg:top-28 lg:will-change-transform"
           >
             {reasons.map((reason, index) => (
               <li
