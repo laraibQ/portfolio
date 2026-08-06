@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
+import { openTo } from "@/data/portfolioData";
 
 const NAV_LINKS = [
   { href: "/#about", label: "About", homeHash: "#about" },
@@ -88,7 +89,17 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <span className="hidden items-center gap-2 text-[11px] font-medium tracking-[0.14em] text-accent-text uppercase sm:inline-flex">
+          <span
+            title="Open to freelance, remote roles, and agency contracts"
+            className="hidden items-center gap-2 text-[11px] font-medium tracking-[0.14em] text-accent-text uppercase lg:inline-flex"
+          >
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+              <span className="relative inline-flex size-2 rounded-full bg-accent" />
+            </span>
+            Available · Freelance &amp; remote
+          </span>
+          <span className="hidden items-center gap-2 text-[11px] font-medium tracking-[0.14em] text-accent-text uppercase sm:inline-flex lg:hidden">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex size-2 rounded-full bg-accent" />

@@ -18,10 +18,10 @@ function resolveSiteUrl() {
 /** Single source of truth for site-level metadata, reused by layout, sitemap and robots. */
 export const site = {
   name: "Laraib Mujahid",
-  title: "Laraib Mujahid — WordPress Developer · Automation Builder",
-  shortDescription: "WordPress Developer & Automation Builder",
+  title: "Laraib Mujahid — Website Designer · Automation Builder",
+  shortDescription: "Website Designer & Automation Builder",
   description:
-    "WordPress Developer and Automation Builder specializing in Elementor, Figma-to-code builds, Shopify, and n8n workflows for international clients.",
+    "Website Designer and Automation Builder specializing in WordPress, Elementor, Figma-to-code builds, Shopify, and n8n workflows for international clients.",
   url: resolveSiteUrl(),
   locale: "en_US",
 } as const;

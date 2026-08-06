@@ -1,5 +1,6 @@
 import { MagneticLink } from "@/components/ui/Motion";
 import { HeroAvatarSlot } from "@/components/AvatarSlots";
+import { openTo } from "@/data/portfolioData";
 
 /*
  * Mobile (stacked): sized so AUTOMATION fits.
@@ -59,6 +60,10 @@ export default function Hero() {
         <p className="enter-up mt-8 max-w-xl text-center text-base leading-relaxed text-muted [animation-delay:200ms] sm:mt-10 sm:text-lg">
           Results-driven Website Designer &amp; Automation Builder, crafting
           high-performance websites and n8n workflows.
+        </p>
+
+        <p className="enter-up mt-4 text-center text-[11px] font-medium tracking-[0.18em] text-subtle uppercase [animation-delay:240ms]">
+          Open to · {openTo.short}
         </p>
 
         <div className="enter-up mt-8 flex flex-wrap items-center justify-center gap-3 [animation-delay:280ms] sm:mt-10 sm:gap-4">

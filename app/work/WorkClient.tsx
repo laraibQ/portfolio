@@ -33,13 +33,18 @@ function WorkCard({ project }: { project: Project }) {
     <>
       <div>
         <div className="mb-5 flex items-start justify-between gap-3">
-          <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.16em] text-accent-text uppercase">
-            {categoryLabel(project.category)}
-          </span>
+          <div className="flex flex-wrap gap-2">
+            <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.16em] text-accent-text uppercase">
+              {categoryLabel(project.category)}
+            </span>
+            <span className="rounded-full border border-line bg-panel px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+              {project.ownership}
+            </span>
+          </div>
           {isLive ? (
             <span
               aria-hidden
-              className="inline-flex size-9 items-center justify-center rounded-full border border-line bg-panel text-muted transition-all group-hover:border-accent/40 group-hover:text-accent-text"
+              className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line bg-panel text-muted transition-all group-hover:border-accent/40 group-hover:text-accent-text"
             >
               <ArrowUpRight className="size-4" strokeWidth={1.75} />
             </span>
@@ -50,9 +55,31 @@ function WorkCard({ project }: { project: Project }) {
           {project.title}
           {isLive ? <span className="sr-only"> (opens in a new tab)</span> : null}
         </h2>
+        <p className="mt-2 text-sm font-medium text-accent-text">{project.metric}</p>
         <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
           {project.description}
         </p>
+        {project.caseStudy ? (
+          <p className="mt-3 text-sm leading-relaxed text-muted">
+            <span className="font-medium text-foreground">Result: </span>
+            {project.caseStudy.result}
+          </p>
+        ) : null}
+        {project.workflow ? (
+          <ol className="mt-4 flex flex-wrap gap-2">
+            {project.workflow.map((step, stepIndex) => (
+              <li
+                key={step}
+                className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-2.5 py-1 text-[10px] tracking-wide text-muted"
+              >
+                <span className="font-mono text-accent-text">
+                  {String(stepIndex + 1).padStart(2, "0")}
+                </span>
+                {step}
+              </li>
+            ))}
+          </ol>
+        ) : null}
       </div>
 
       <ul className="mt-8 flex flex-wrap gap-2">
@@ -164,8 +191,9 @@ export default function WorkClient() {
             All Projects &amp; Works
           </h1>
           <p className="mt-5 max-w-2xl text-base text-muted sm:text-lg">
-            Explore live web builds, UI/UX-led launches, and n8n automation
-            systems—filter by category to find what you need.
+            Live web builds, UI/UX-led launches, and n8n systems—each with
+            ownership labels, a metric, and a result summary. Filter by category
+            to match the brief.
           </p>
         </div>
 

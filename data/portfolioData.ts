@@ -1,5 +1,18 @@
 export type ProjectCategory = "web" | "uiux" | "automation";
 
+export type ProjectOwnership =
+  | "Solo build"
+  | "Feature owner"
+  | "Maintainer"
+  | "Design-to-code lead";
+
+export type CaseStudy = {
+  problem: string;
+  role: string;
+  solution: string;
+  result: string;
+};
+
 export type Project = {
   id: string;
   title: string;
@@ -10,6 +23,14 @@ export type Project = {
   category: ProjectCategory;
   /** Tailwind col-span classes for bento layout */
   span: string;
+  /** What you personally owned on the engagement */
+  ownership: ProjectOwnership;
+  /** One concrete metric recruiters can scan */
+  metric: string;
+  /** Full case narrative for featured work */
+  caseStudy?: CaseStudy;
+  /** Step labels for automation systems (proof without a live demo) */
+  workflow?: string[];
 };
 
 export const projectFilters = [
@@ -32,6 +53,15 @@ export type ExperienceItem = {
   highlights: string[];
 };
 
+/** Canonical role line — keep hero, meta, footer, and contact in sync. */
+export const roleTitle = "Website Designer · Automation Builder" as const;
+
+export const openTo = {
+  short: "Freelance · Remote · Agency contract",
+  detail:
+    "Open to freelance builds, remote full-time roles, and agency contracts in WordPress, Shopify, and n8n automation.",
+} as const;
+
 export const projects: Project[] = [
   {
     id: "solvix",
@@ -43,6 +73,17 @@ export const projects: Project[] = [
     featured: true,
     category: "web",
     span: "md:col-span-8 md:row-span-2 min-h-[280px] md:min-h-[420px]",
+    ownership: "Solo build",
+    metric: "Brief → live launch",
+    caseStudy: {
+      problem:
+        "A consultancy needed a production WordPress presence with clear branded page structure and on-page SEO—not a theme demo.",
+      role: "Solo Elementor builder from brief through launch and SEO setup.",
+      solution:
+        "Custom layouts, branded page structures, and on-page SEO configuration wired for real search and handoff.",
+      result:
+        "Live client site at solvixconsultancy.com with production-ready structure and SEO foundations in place.",
+    },
   },
   {
     id: "bolo",
@@ -54,6 +95,17 @@ export const projects: Project[] = [
     featured: true,
     category: "uiux",
     span: "md:col-span-4 md:row-span-2 min-h-[280px] md:min-h-[420px]",
+    ownership: "Design-to-code lead",
+    metric: "Figma → production",
+    caseStudy: {
+      problem:
+        "A finished Figma design had to become a responsive WordPress site that held up on real devices—not a near-match mockup.",
+      role: "End-to-end design-to-code owner from Figma through production launch.",
+      solution:
+        "Pixel-accurate WordPress build with mobile-first layouts and cross-browser polish before handoff.",
+      result:
+        "Live responsive site at bolo.metapresence.my, shipped as a production launch rather than a staging approximation.",
+    },
   },
   {
     id: "clona",
@@ -64,6 +116,17 @@ export const projects: Project[] = [
     tags: ["WordPress", "WooCommerce", "Elementor"],
     category: "web",
     span: "md:col-span-4 min-h-[240px]",
+    ownership: "Feature owner",
+    metric: "3+ features / month",
+    caseStudy: {
+      problem:
+        "A technology startup needed a primary WordPress site that could take new features every month without breaking production.",
+      role: "WordPress feature owner working with design and product under real deadlines.",
+      solution:
+        "Elementor customization, WooCommerce integration, Figma-to-page delivery, and third-party API extensions.",
+      result:
+        "Shipped 3+ new site features per month while maintaining the live company site at clona.my.",
+    },
   },
   {
     id: "makeup4u",
@@ -74,6 +137,17 @@ export const projects: Project[] = [
     tags: ["Shopify", "E-commerce", "Theme"],
     category: "web",
     span: "md:col-span-4 min-h-[240px]",
+    ownership: "Maintainer",
+    metric: "Store ops + theme polish",
+    caseStudy: {
+      problem:
+        "An active Shopify store needed theme layout fixes, stronger mobile behaviour, and cleaner product listings.",
+      role: "Remote Shopify store developer owning theme and listing improvements.",
+      solution:
+        "Theme layout customization, mobile responsiveness work, and product listing optimization on the live store.",
+      result:
+        "Ongoing production improvements on makeup4uonline.com across storefront presentation and product ops.",
+    },
   },
   {
     id: "n8n-whatsapp",
@@ -84,6 +158,24 @@ export const projects: Project[] = [
     tags: ["n8n", "WhatsApp", "Automation"],
     category: "automation",
     span: "md:col-span-4 min-h-[240px]",
+    ownership: "Solo build",
+    metric: "Faster response loops",
+    caseStudy: {
+      problem:
+        "Client questions piled up in WhatsApp and required manual triage before anyone could reply.",
+      role: "Solo n8n automation builder for the client communication loop.",
+      solution:
+        "WhatsApp chatbot workflow in n8n that routes and answers routine client messages without a human handoff for every ping.",
+      result:
+        "Faster first-response loops and fewer manual relays for day-to-day client communication.",
+    },
+    workflow: [
+      "Inbound WhatsApp",
+      "Intent / routing",
+      "Auto reply",
+      "Human handoff",
+      "Logged follow-up",
+    ],
   },
   {
     id: "n8n-gmail",
@@ -94,8 +186,76 @@ export const projects: Project[] = [
     tags: ["n8n", "Gmail", "Outreach"],
     category: "automation",
     span: "md:col-span-12 min-h-[200px]",
+    ownership: "Solo build",
+    metric: "200+ emails / week",
+    caseStudy: {
+      problem:
+        "Personalized outreach was eating hours every week when done one message at a time in Gmail.",
+      role: "Solo builder of the outreach automation system.",
+      solution:
+        "n8n + Gmail workflow that personalizes and sends outreach at volume while keeping messages individual.",
+      result:
+        "200+ personalized outreach emails managed weekly with a major cut in manual send-and-track work.",
+    },
+    workflow: [
+      "Lead list in",
+      "Personalize copy",
+      "Gmail send",
+      "Track replies",
+      "Queue next batch",
+    ],
   },
 ];
+
+/** Featured case studies on the home page (order matters). */
+export const featuredCaseStudyIds = ["solvix", "clona", "n8n-gmail"] as const;
+
+export const featuredCaseStudies = featuredCaseStudyIds
+  .map((id) => projects.find((project) => project.id === id))
+  .filter((project): project is Project & { caseStudy: CaseStudy } =>
+    Boolean(project?.caseStudy),
+  );
+
+/**
+ * Outcome statements tied to real shipped work—not invented personal quotes.
+ * Replace with named client testimonials when you have written permission.
+ */
+export type OutcomeProof = {
+  id: string;
+  statement: string;
+  project: string;
+  metric: string;
+  url?: string | null;
+};
+
+export const outcomeProofs: OutcomeProof[] = [
+  {
+    id: "outcome-clona",
+    statement:
+      "Primary company WordPress site kept moving under deadlines—new features landed every month without stalling production.",
+    project: "Clona",
+    metric: "3+ features / month",
+    url: "https://clona.my",
+  },
+  {
+    id: "outcome-gmail",
+    statement:
+      "Personalized Gmail outreach stopped being a manual grind—volume stayed high while the send-and-track work dropped.",
+    project: "Gmail Outreach System",
+    metric: "200+ emails / week",
+  },
+  {
+    id: "outcome-bolo",
+    statement:
+      "A Figma file became a live responsive WordPress site with mobile-first polish checked before handoff, not after.",
+    project: "Bolo · MetaPresence",
+    metric: "Figma → production",
+    url: "https://bolo.metapresence.my",
+  },
+];
+
+export const referencesNote =
+  "Named client references and LinkedIn recommendations available on request." as const;
 
 export const experience: ExperienceItem[] = [
   {

@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUp, Mail } from "lucide-react";
-import { contactInfo } from "@/data/portfolioData";
+import { contactInfo, roleTitle } from "@/data/portfolioData";
 import { Reveal } from "@/components/ui/Motion";
 
 function LinkedInIcon({ className }: { className?: string }) {
@@ -26,9 +26,7 @@ export default function Footer() {
             >
               {contactInfo.name}
             </a>
-            <p className="text-sm text-subtle">
-              WordPress Developer · Automation Builder
-            </p>
+            <p className="text-sm text-subtle">{roleTitle}</p>
             <p className="text-xs text-subtle">
               © {year} {contactInfo.name}. Crafted with intention.
             </p>

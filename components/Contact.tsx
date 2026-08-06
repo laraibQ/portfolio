@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Loader2, Mail, Phone } from "lucide-react";
-import { contactInfo } from "@/data/portfolioData";
+import { contactInfo, openTo, referencesNote } from "@/data/portfolioData";
 import { Reveal } from "@/components/ui/Motion";
 import {
   buildMailtoUrl,
@@ -131,9 +131,9 @@ export default function Contact() {
             Let&apos;s build something production-ready.
           </h2>
           <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
-            Available for WordPress, Shopify, and automation projects. Reach out
-            directly or send a short brief.
+            {openTo.detail} Reach out directly or send a short brief.
           </p>
+          <p className="mt-3 max-w-md text-sm text-subtle">{referencesNote}</p>
 
           <ul className="mt-10 space-y-3">
             {[

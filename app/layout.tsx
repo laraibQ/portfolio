@@ -21,12 +21,13 @@ export const metadata: Metadata = {
   authors: [{ name: site.name }],
   creator: site.name,
   keywords: [
-    "WordPress Developer",
+    "Website Designer",
+    "WordPress",
     "Elementor",
     "Shopify",
     "n8n automation",
     "Figma to code",
-    "Web designer",
+    "Automation Builder",
   ],
   alternates: { canonical: "/" },
   openGraph: {

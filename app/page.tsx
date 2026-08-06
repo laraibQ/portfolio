@@ -18,6 +18,8 @@ const ProjectsMarquee = dynamic(() => import("@/components/ProjectsMarquee"));
 const Services = dynamic(() => import("@/components/Services"));
 const TechStack = dynamic(() => import("@/components/TechStack"));
 const Projects = dynamic(() => import("@/components/Projects"));
+const CaseStudies = dynamic(() => import("@/components/CaseStudies"));
+const Outcomes = dynamic(() => import("@/components/Outcomes"));
 const Experience = dynamic(() => import("@/components/Experience"));
 const Contact = dynamic(() => import("@/components/Contact"));
 const Footer = dynamic(() => import("@/components/Footer"));
@@ -39,6 +41,8 @@ export default function Home() {
         <Services />
         <TechStack />
         <Projects />
+        <CaseStudies />
+        <Outcomes />
         <Experience />
         <Contact />
       </main>

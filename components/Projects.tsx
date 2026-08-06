@@ -75,15 +75,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     <>
       <div className="relative z-10">
         <div className="mb-6 flex items-start justify-between gap-3">
-          <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.16em] text-accent-text uppercase">
-            {project.category === "automation"
-              ? "Automation"
-              : project.category === "uiux"
-                ? "UI/UX Design"
-                : "Live Build"}
-          </span>
+          <div className="flex flex-wrap gap-2">
+            <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.16em] text-accent-text uppercase">
+              {project.category === "automation"
+                ? "Automation"
+                : project.category === "uiux"
+                  ? "UI/UX Design"
+                  : "Live Build"}
+            </span>
+            <span className="rounded-full border border-line bg-panel px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+              {project.ownership}
+            </span>
+          </div>
           {isLive ? (
-            <span className="inline-flex size-9 items-center justify-center rounded-full border border-line bg-panel text-muted transition-all group-hover:border-accent/40 group-hover:text-accent-text group-hover:shadow-[0_0_20px_color-mix(in_srgb,var(--accent)_35%,transparent)]">
+            <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line bg-panel text-muted transition-all group-hover:border-accent/40 group-hover:text-accent-text group-hover:shadow-[0_0_20px_color-mix(in_srgb,var(--accent)_35%,transparent)]">
               <ArrowUpRight className="size-4" strokeWidth={1.75} />
             </span>
           ) : null}
@@ -98,13 +103,31 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         >
           {project.title}
         </h3>
+        <p className="mt-2 text-sm font-medium text-accent-text">
+          {project.metric}
+        </p>
         <p
-          className={`mt-4 max-w-xl leading-relaxed text-muted ${
+          className={`mt-3 max-w-xl leading-relaxed text-muted ${
             project.featured ? "text-base sm:text-lg" : "text-sm sm:text-base"
           }`}
         >
           {project.description}
         </p>
+        {project.workflow ? (
+          <ol className="mt-5 flex flex-wrap gap-2">
+            {project.workflow.map((step, stepIndex) => (
+              <li
+                key={step}
+                className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-2.5 py-1 text-[10px] tracking-wide text-muted"
+              >
+                <span className="font-mono text-accent-text">
+                  {String(stepIndex + 1).padStart(2, "0")}
+                </span>
+                {step}
+              </li>
+            ))}
+          </ol>
+        ) : null}
       </div>
 
       <ul className="relative z-10 mt-8 flex flex-wrap gap-2">
@@ -171,7 +194,14 @@ export default function Projects() {
             </h2>
             <p className="mt-5 text-base text-muted sm:text-lg">
               A bento of production WordPress, Shopify, and n8n automation—
-              crafted for clarity and speed.
+              each card shows ownership and a metric. Deep dives live in{" "}
+              <a
+                href="/#case-studies"
+                className="text-accent-text transition-colors hover:text-foreground"
+              >
+                Case Studies
+              </a>
+              .
             </p>
           </div>
           <Link

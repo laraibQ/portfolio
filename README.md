@@ -1,6 +1,6 @@
 # Laraib Mujahid — Portfolio
 
-Personal portfolio for a WordPress Developer & Automation Builder. Dark-first,
+Personal portfolio for a Website Designer & Automation Builder. Dark-first,
 motion-rich, statically prerendered, with a working light theme and a real
 contact pipeline.
 

@@ -10,7 +10,7 @@
 | Field | Value |
 | --- | --- |
 | **Name** | Laraib Mujahid |
-| **Role title** | WordPress Developer · Automation Builder |
+| **Role title** | Website Designer · Automation Builder |
 | **Tagline direction** | Production-grade WordPress & Shopify builds, Figma-to-code accuracy, and n8n automation — delivered remotely for international clients |
 | **Location / timezone context** | Lahore, Pakistan · Remote-friendly with global teams |
 | **Phone** | +92 341 145 0024 |
@@ -21,7 +21,7 @@
 
 ### Professional summary (canonical copy)
 
-Results-driven WordPress Developer with 2+ years of hands-on experience building, customizing, and maintaining production-grade websites for international clients. Proficient in Elementor, custom theme development, and plugin integration. Strong at converting Figma designs into pixel-accurate, fully responsive, cross-browser-compatible WordPress sites. Experienced in website speed optimization and on-page SEO. Additional expertise in Shopify store management, Webflow, and n8n automation workflows. Currently pursuing a BSc in Computer Science. Comfortable working remotely with global teams under tight deadlines.
+Results-driven Website Designer & Automation Builder with 2+ years of hands-on experience building, customizing, and maintaining production-grade websites for international clients. Proficient in Elementor, custom theme development, and plugin integration. Strong at converting Figma designs into pixel-accurate, fully responsive, cross-browser-compatible WordPress sites. Experienced in website speed optimization and on-page SEO. Additional expertise in Shopify store management, Webflow, and n8n automation workflows. Currently pursuing a BSc in Computer Science. Comfortable working remotely with global teams under tight deadlines.
 
 ### Brand personality for the site
 
@@ -187,15 +187,23 @@ deviations from the v1 sketch are noted inline.
 
 7. **Selected Work** — `components/Projects.tsx`
    - Bento grid of live builds and automation systems, linking to `/work`
+   - Ownership labels + metrics on every card; workflow steps on automation
 
-8. **Experience** — `components/Experience.tsx`
+8. **Case Studies** — `components/CaseStudies.tsx`
+   - Problem / role / solution / result for Solvix, Clona, Gmail outreach
+
+9. **Outcomes** — `components/Outcomes.tsx`
+   - Measurable proof from shipped work; references available on request
+
+10. **Experience** — `components/Experience.tsx`
    - *Deviation:* placed after Projects rather than before, so proof of work
      lands before the CV detail
 
-9. **Contact** — `components/Contact.tsx`
+11. **Contact** — `components/Contact.tsx`
    - Email, phone, LinkedIn, plus a working form (see §9)
+   - Open-to strip + references note
 
-10. **Footer** — `components/Footer.tsx`
+12. **Footer** — `components/Footer.tsx`
     - Name, role line, social links, back to top, year
 
 **Work (`app/work/page.tsx`)**
